@@ -1,6 +1,7 @@
 package android.validcat.net.androidcourse.network;
 
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -32,7 +33,7 @@ public class MovieFetcherAsync extends AsyncTask<String, Integer, String> {
 
             // Read the input stream into a String
             InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
             if (inputStream == null) {
                 listener.onError("Read the input stream error");
                 return null;
@@ -41,7 +42,7 @@ public class MovieFetcherAsync extends AsyncTask<String, Integer, String> {
 
             String line;
             while ((line = reader.readLine()) != null)
-                buffer.append(line + "\n");
+                buffer.append(line).append("\n");
 
             if (buffer.length() == 0) {
                 listener.onError("Server response is empty");
@@ -66,18 +67,15 @@ public class MovieFetcherAsync extends AsyncTask<String, Integer, String> {
         return json;
     }
 
-
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        if (result == null) {
-            return;
-        }
-        listener.onResult(result);
+        if (result != null)
+            listener.onResult(result);
     }
 
     public interface IResultListener {
-        void onResult(String result);
+        void onResult(@NonNull String result);
         void onError(String error);
     }
 }

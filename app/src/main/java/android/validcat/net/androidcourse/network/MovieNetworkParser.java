@@ -11,13 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieNetworkParser {
-    private static final String LOG_TAG = MovieNetworkParser.class.getSimpleName();
+    public static final String LOG_TAG = MovieNetworkParser.class.getSimpleName();
     private static final String KEY_RESULTS = "results";
-    private static final String KEY_TITLE = "original_title";
-    private static final String KEY_POSTER_PATH = "poster_path";
-    private static final String KEY_OVERVIEW = "overview";
-    private static final String KEY_RATE = "vote_average";
-    private static final String KEY_RELEASE_DATE = "release_date";
 
     /**
      * Take the String representing the complete movies in JSON Format and get list of  MovieItem.
@@ -34,11 +29,11 @@ public class MovieNetworkParser {
         for(int i = 0; i < Constants.MOVIE_COUNT; i++) {
             Movie movie = new Movie();
             JSONObject jsonMovie = jsonMoviesArray.getJSONObject(i);
-            movie.title = jsonMovie.getString(KEY_TITLE);
-            movie.overview = jsonMovie.getString(KEY_OVERVIEW);
-            movie.thumbPath = jsonMovie.getString(KEY_POSTER_PATH);
-            movie.release = jsonMovie.getString(KEY_RELEASE_DATE);
-            movie.rate = jsonMovie.getString(KEY_RATE);
+            movie.title = jsonMovie.getString(Movie.KEY_TITLE);
+            movie.overview = jsonMovie.getString(Movie.KEY_OVERVIEW);
+            movie.posterPath = jsonMovie.getString(Movie.KEY_POSTER_PATH);
+            movie.release = jsonMovie.getString(Movie.KEY_RELEASE_DATE);
+            movie.rate = jsonMovie.getString(Movie.KEY_RATE);
 
             movies.add(movie);
         }

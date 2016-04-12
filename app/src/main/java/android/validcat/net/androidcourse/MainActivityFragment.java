@@ -2,10 +2,11 @@ package android.validcat.net.androidcourse;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
+import android.validcat.net.androidcourse.db.Constants;
 import android.validcat.net.androidcourse.model.Movie;
 import android.validcat.net.androidcourse.network.MovieFetcherAsync;
 import android.validcat.net.androidcourse.network.MovieNetworkParser;
@@ -40,17 +41,14 @@ public class MainActivityFragment extends Fragment {
                 getResources().getConfiguration().orientation ==
                         Configuration.ORIENTATION_LANDSCAPE ? 3 : 2));
 
-        MovieFetcherAsync task = new MovieFetcherAsync(new MovieFetcherAsync.IResultListener() {
+        new MovieFetcherAsync(new MovieFetcherAsync.IResultListener() {
             @Override
-            public void onResult(String result) {
-                if (TextUtils.isEmpty(result)) //TODO handle error
-                    return;
-
+            public void onResult(@NonNull String result) {
                 try {
                     movies.addAll(MovieNetworkParser.getMoviesFromJson(result));
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    //TODO handle error
+                    Toast.makeText(getContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 adapter.notifyDataSetChanged();
@@ -58,12 +56,9 @@ public class MainActivityFragment extends Fragment {
 
             @Override
             public void onError(String error) {
-                // error
                 Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
             }
-        });
-        //BuildConfig.OPEN_WEATHER_MAP_API_KEY
-        task.execute("http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=" + BuildConfig.OPEN_MOVIE_DB_API_KEY);
+        }).execute(Constants.URL_FETCH_MOVIES);
 
         return root;
     }

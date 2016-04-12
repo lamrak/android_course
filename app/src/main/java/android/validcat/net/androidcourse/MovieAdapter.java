@@ -34,7 +34,7 @@ public class MovieAdapter extends RecyclerView.Adapter< MovieAdapter.ViewHolder>
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Movie m = movies.get(position);
-        //String url = Movie.getFullPosterPath(m.thumbPath, Movie.WIDTH_342); // cursor.getString(MovieItem.COL_MOVIE_THUMB_PATH);
+        //String url = Movie.getFullPosterPath(m.posterPath, Movie.WIDTH_342); // cursor.getString(MovieItem.COL_MOVIE_THUMB_PATH);
         if (!TextUtils.isEmpty(m.getFullPosterPath(Movie.WIDTH_500)))
             Picasso.with(context)
                     .load(m.getFullPosterPath(Movie.WIDTH_500))
