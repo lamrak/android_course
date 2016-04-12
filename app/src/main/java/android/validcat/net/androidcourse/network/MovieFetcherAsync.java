@@ -35,7 +35,6 @@ public class MovieFetcherAsync extends AsyncTask<String, Integer, String> {
             InputStream inputStream = urlConnection.getInputStream();
             StringBuilder buffer = new StringBuilder();
             if (inputStream == null) {
-                listener.onError("Read the input stream error");
                 return null;
             }
             reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -45,13 +44,11 @@ public class MovieFetcherAsync extends AsyncTask<String, Integer, String> {
                 buffer.append(line).append("\n");
 
             if (buffer.length() == 0) {
-                listener.onError("Server response is empty");
                 return null;
             }
             json = buffer.toString();
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error ", e);
-            listener.onError(e.getMessage());
         } finally {
             if (urlConnection != null) urlConnection.disconnect();
             if (reader != null) {
@@ -59,7 +56,6 @@ public class MovieFetcherAsync extends AsyncTask<String, Integer, String> {
                     reader.close();
                 } catch (final IOException e) {
                     Log.e(LOG_TAG, "Error closing stream", e);
-                    listener.onError(e.getMessage());
                 }
             }
         }
@@ -72,6 +68,7 @@ public class MovieFetcherAsync extends AsyncTask<String, Integer, String> {
         super.onPostExecute(result);
         if (result != null)
             listener.onResult(result);
+        else listener.onError("Error");
     }
 
     public interface IResultListener {

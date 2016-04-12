@@ -16,7 +16,7 @@ public class MovieOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + Movie.TABLE_MOVIE + " (" +
-                Movie.KEY_ID + " INT PRIMARY KEY NOT NULL," +
+                Movie.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 Movie.KEY_TITLE + " TEXT NOT NULL," +
                 Movie.KEY_OVERVIEW + " TEXT NOT NULL," +
                 Movie.KEY_POSTER_PATH + " TEXT NOT NULL," +

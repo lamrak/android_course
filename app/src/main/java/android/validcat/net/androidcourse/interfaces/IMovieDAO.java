@@ -1,5 +1,7 @@
 package android.validcat.net.androidcourse.interfaces;
 
+import android.validcat.net.androidcourse.model.Movie;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -11,4 +13,6 @@ public interface IMovieDAO<I> {
     boolean delete(I i);
     I get(int id);
     List<I> getAll();
+
+    void saveAll(List<Movie> movies);
 }
