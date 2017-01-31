@@ -1,4 +1,4 @@
-package android.validcat.net.androidcourse.network;
+package android.validcat.net.androidcourse.data.network;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;

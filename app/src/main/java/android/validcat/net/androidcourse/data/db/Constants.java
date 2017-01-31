@@ -1,4 +1,4 @@
-package android.validcat.net.androidcourse.db;
+package android.validcat.net.androidcourse.data.db;
 
 import android.validcat.net.androidcourse.BuildConfig;
 

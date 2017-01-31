@@ -1,6 +1,6 @@
-package android.validcat.net.androidcourse.network;
+package android.validcat.net.androidcourse.data.network;
 
-import android.validcat.net.androidcourse.db.Constants;
+import android.validcat.net.androidcourse.data.db.Constants;
 import android.validcat.net.androidcourse.model.Movie;
 
 import org.json.JSONArray;

@@ -1,8 +1,9 @@
-package android.validcat.net.androidcourse;
+package android.validcat.net.androidcourse.view.movies;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.validcat.net.androidcourse.R;
 import android.validcat.net.androidcourse.model.Movie;
 import android.view.LayoutInflater;
 import android.view.View;

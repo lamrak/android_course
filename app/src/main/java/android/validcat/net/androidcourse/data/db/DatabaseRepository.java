@@ -1,4 +1,4 @@
-package android.validcat.net.androidcourse.db;
+package android.validcat.net.androidcourse.data.db;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -12,11 +12,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieDataManager implements IMovieDAO<Movie> {
-    private static final String LOG_TAG = MovieDataManager.class.getSimpleName();
+public class DatabaseRepository implements IMovieDAO<Movie> {
+    private static final String LOG_TAG = DatabaseRepository.class.getSimpleName();
     private MovieOpenHelper dbHelper;
 
-    public MovieDataManager(Context context) {
+    public DatabaseRepository(Context context) {
         dbHelper = new MovieOpenHelper(context);
     }
 
