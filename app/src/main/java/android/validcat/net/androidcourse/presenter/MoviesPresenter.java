@@ -1,19 +1,19 @@
 package android.validcat.net.androidcourse.presenter;
 
-import android.content.Context;
+import android.validcat.net.androidcourse.data.DataRepository;
 import android.validcat.net.androidcourse.interfaces.IListener;
 import android.validcat.net.androidcourse.interfaces.MVPMovies;
-import android.validcat.net.androidcourse.data.DataRepository;
 import android.validcat.net.androidcourse.model.Movie;
 
 import java.util.List;
 
 public class MoviesPresenter implements MVPMovies.MoviesPresenter {
     private MVPMovies.MoviesView view;
-    private final MVPMovies.MoviesModel model;
 
-    public MoviesPresenter(Context context) {
-        model = new DataRepository(context);
+    private DataRepository model;
+
+    public MoviesPresenter(DataRepository model) {
+        this.model = model;
     }
 
     @Override
@@ -40,6 +40,6 @@ public class MoviesPresenter implements MVPMovies.MoviesPresenter {
 
     @Override
     public void onMovieSelected(int id) {
-        //TODO
+        throw new UnsupportedOperationException();
     }
 }

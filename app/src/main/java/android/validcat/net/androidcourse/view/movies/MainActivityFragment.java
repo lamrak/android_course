@@ -5,10 +5,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.validcat.net.androidcourse.MovieApp;
 import android.validcat.net.androidcourse.R;
 import android.validcat.net.androidcourse.interfaces.MVPMovies;
 import android.validcat.net.androidcourse.model.Movie;
-import android.validcat.net.androidcourse.presenter.MoviesPresenter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,19 +18,32 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class MainActivityFragment extends Fragment
         implements MVPMovies.MoviesView {
     private List<Movie> movies;
     private MovieAdapter adapter;
 
-    private MVPMovies.MoviesPresenter presenter;
+    @Inject
+    public MVPMovies.MoviesPresenter presenter;
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        this.initialize();
+    }
+
+    private void initialize() {
+        ((MovieApp)((getActivity()).getApplication())).getComponent().inject(this);
+        Log.d("", "");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_main, container, false);
         initUI(root);
-        presenter = new MoviesPresenter(getContext());
 
         return root;
     }
@@ -61,7 +75,7 @@ public class MainActivityFragment extends Fragment
 
     @Override
     public void onError(String error) {
-        Toast.makeText(getContext(), "Error:"+error,
+        Toast.makeText(getContext(), error,
                 Toast.LENGTH_SHORT).show();
     }
 }

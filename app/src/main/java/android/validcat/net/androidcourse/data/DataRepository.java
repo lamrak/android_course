@@ -3,13 +3,13 @@ package android.validcat.net.androidcourse.data;
 import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.validcat.net.androidcourse.interfaces.IListener;
-import android.validcat.net.androidcourse.interfaces.MVPMovies;
 import android.validcat.net.androidcourse.data.db.DatabaseRepository;
-import android.validcat.net.androidcourse.model.Movie;
 import android.validcat.net.androidcourse.data.network.MovieFetcherAsync;
 import android.validcat.net.androidcourse.data.network.MovieNetworkParser;
 import android.validcat.net.androidcourse.data.network.NetworkRepository;
+import android.validcat.net.androidcourse.interfaces.IListener;
+import android.validcat.net.androidcourse.interfaces.MVPMovies;
+import android.validcat.net.androidcourse.model.Movie;
 import android.validcat.net.androidcourse.utils.NetworkUtils;
 
 import org.json.JSONException;
