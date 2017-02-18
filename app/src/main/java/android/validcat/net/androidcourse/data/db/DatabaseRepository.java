@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.validcat.net.androidcourse.exceptions.CursorIsNullException;
 import android.validcat.net.androidcourse.interfaces.IMovieDAO;
 import android.validcat.net.androidcourse.model.Movie;
 
@@ -12,9 +13,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Observable;
+import rx.Subscriber;
+
 public class DatabaseRepository implements IMovieDAO<Movie> {
     private static final String LOG_TAG = DatabaseRepository.class.getSimpleName();
     private MovieOpenHelper dbHelper;
+
+    private static final long STALE_MS = 10 * 1000;
+    private long timestamp;
 
     public DatabaseRepository(Context context) {
         dbHelper = new MovieOpenHelper(context);
@@ -70,7 +77,41 @@ public class DatabaseRepository implements IMovieDAO<Movie> {
     }
 
     @Override
-    public List<Movie> getAll() {
+    public Observable<List<Movie>> getAll() {
+        if (!isUpToDate()) {
+            this.timestamp = System.currentTimeMillis();
+            return Observable.empty();
+        }
+
+        try {
+            final List<Movie> movies = readAllMoviesFromDb();
+
+            if (movies == null || movies.size() == 0) {
+                this.timestamp = System.currentTimeMillis();
+                return Observable.empty();
+            } else
+                return Observable.create(new Observable.OnSubscribe<List<Movie>>() {
+                    @Override
+                    public void call(Subscriber<? super List<Movie>> subscriber) {
+                        try {
+                            subscriber.onNext(movies);
+                            subscriber.onCompleted();
+                        } catch (Exception e) {
+                            subscriber.onError(e);
+                        }
+                    }
+                });
+
+        } catch (CursorIsNullException e) {
+            return Observable.error(e);
+        }
+    }
+
+    private boolean isUpToDate() {
+        return System.currentTimeMillis() - timestamp < STALE_MS;
+    }
+
+    private List<Movie> readAllMoviesFromDb() throws CursorIsNullException {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor c = db.query(Movie.TABLE_MOVIE,
                 Movie.projection,
@@ -81,7 +122,7 @@ public class DatabaseRepository implements IMovieDAO<Movie> {
                 null);
 
         if (c == null)
-            return null;
+            throw new CursorIsNullException();
 
         List<Movie> items = new ArrayList<>();
         if (c.moveToFirst()) {

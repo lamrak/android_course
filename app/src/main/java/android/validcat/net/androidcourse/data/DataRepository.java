@@ -24,21 +24,15 @@ public class DataRepository implements MVPMovies.MoviesModel {
 
     @Override
     public Observable<List<Movie>> fetchMovies() {
-//        if (!NetworkUtils.isNetworkAvailable(context)) {
-//            List<Movie> dbMovies = db.getAll();
-////            if (dbMovies != null)
-////                presenterListener.onResult(dbMovies);
-////            else presenterListener.onError(new MissingResourceException("", "", ""));
-//        }
-
-        return rest.getMovies()
+        return db.getAll().switchIfEmpty(
+                rest.getMovies()
                 .doOnNext(new Action1<List<Movie>>() {
                     @Override
                     public void call(List<Movie> movies) {
                         if (movies != null)
                             db.saveAll(movies);
                     }
-                });
+                }));
 
     }
 
