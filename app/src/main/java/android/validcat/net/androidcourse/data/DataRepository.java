@@ -1,21 +1,15 @@
 package android.validcat.net.androidcourse.data;
 
-import android.accounts.NetworkErrorException;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.validcat.net.androidcourse.data.db.DatabaseRepository;
-import android.validcat.net.androidcourse.data.network.MovieFetcherAsync;
-import android.validcat.net.androidcourse.data.network.MovieNetworkParser;
 import android.validcat.net.androidcourse.data.network.NetworkRepository;
-import android.validcat.net.androidcourse.interfaces.IListener;
 import android.validcat.net.androidcourse.interfaces.MVPMovies;
 import android.validcat.net.androidcourse.model.Movie;
-import android.validcat.net.androidcourse.utils.NetworkUtils;
-
-import org.json.JSONException;
 
 import java.util.List;
-import java.util.MissingResourceException;
+
+import rx.Observable;
+import rx.functions.Action1;
 
 public class DataRepository implements MVPMovies.MoviesModel {
     private final Context context;
@@ -29,32 +23,22 @@ public class DataRepository implements MVPMovies.MoviesModel {
     }
 
     @Override
-    public void fetchMovies(final IListener presenterListener) {
-        if (!NetworkUtils.isNetworkAvailable(context)) {
-            List<Movie> dbMovies = db.getAll();
-            if (dbMovies != null)
-                presenterListener.onResult(dbMovies);
-            else presenterListener.onError(new MissingResourceException("", "", ""));
-        } else {
-            rest.getMoviesApi(new MovieFetcherAsync.IResultListener() {
-                @Override
-                public void onResult(@NonNull String result) {
-                    try {
-                        List<Movie> fetchedMovies = MovieNetworkParser.getMoviesFromJson(result);
-                        db.saveAll(fetchedMovies);
-                        presenterListener.onResult(fetchedMovies);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        presenterListener.onError(e);
-                    }
-                }
+    public Observable<List<Movie>> fetchMovies() {
+//        if (!NetworkUtils.isNetworkAvailable(context)) {
+//            List<Movie> dbMovies = db.getAll();
+////            if (dbMovies != null)
+////                presenterListener.onResult(dbMovies);
+////            else presenterListener.onError(new MissingResourceException("", "", ""));
+//        }
 
-                @Override
-                public void onError(String error) {
-                    presenterListener.onError(new NetworkErrorException(error));
-                }
-            });
-        }
+        return rest.getMovies()
+                .doOnNext(new Action1<List<Movie>>() {
+                    @Override
+                    public void call(List<Movie> movies) {
+                        if (movies != null)
+                            db.saveAll(movies);
+                    }
+                });
 
     }
 

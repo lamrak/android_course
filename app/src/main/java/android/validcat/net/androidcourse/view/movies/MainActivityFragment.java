@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.validcat.net.androidcourse.MovieApp;
 import android.validcat.net.androidcourse.R;
 import android.validcat.net.androidcourse.interfaces.MVPMovies;
@@ -35,8 +34,7 @@ public class MainActivityFragment extends Fragment
     }
 
     private void initialize() {
-        ((MovieApp)((getActivity()).getApplication())).getComponent().inject(this);
-        Log.d("", "");
+        ((MovieApp) getActivity().getApplication()).getComponent().inject(this);
     }
 
     @Override

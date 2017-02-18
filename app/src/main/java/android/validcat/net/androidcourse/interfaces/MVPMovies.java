@@ -5,6 +5,8 @@ import android.validcat.net.androidcourse.model.Movie;
 
 import java.util.List;
 
+import rx.Observable;
+
 public interface MVPMovies {
 
     interface MoviesView {
@@ -20,6 +22,6 @@ public interface MVPMovies {
     }
 
     interface MoviesModel {
-        void fetchMovies(IListener resultListener);
+        Observable<List<Movie>> fetchMovies();
     }
 }
