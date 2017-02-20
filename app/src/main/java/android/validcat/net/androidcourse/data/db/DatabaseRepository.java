@@ -32,11 +32,11 @@ public class DatabaseRepository implements IMovieDAO<Movie> {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
-        cv.put(Movie.KEY_TITLE, movie.title);
-        cv.put(Movie.KEY_OVERVIEW, movie.overview);
-        cv.put(Movie.KEY_RATE, movie.rate);
+        cv.put(Movie.KEY_TITLE, movie.getTitle());
+        cv.put(Movie.KEY_OVERVIEW, movie.getOverview());
+        cv.put(Movie.KEY_RATE, movie.getRate());
         cv.put(Movie.KEY_POSTER_PATH, movie.posterPath);
-        cv.put(Movie.KEY_ID, movie.id);
+        cv.put(Movie.KEY_ID, movie.getId());
 
         long _id = db.insert(Movie.TABLE_MOVIE, null, cv);
         db.close();
@@ -45,11 +45,11 @@ public class DatabaseRepository implements IMovieDAO<Movie> {
     }
 
     @Override
-    public boolean delete(Movie Movie) {
+    public boolean delete(Movie movie) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        String[] whereArgs = {String.valueOf(Movie.id)};
-        int rows = db.delete(Movie.TABLE_MOVIE, Movie.KEY_ID,
+        String[] whereArgs = {String.valueOf(movie.getId())};
+        int rows = db.delete(movie.TABLE_MOVIE, movie.KEY_ID,
                 whereArgs);
         db.close();
 
@@ -143,9 +143,9 @@ public class DatabaseRepository implements IMovieDAO<Movie> {
 
         for (Movie movie: movies) {
             ContentValues cv = new ContentValues();
-            cv.put(Movie.KEY_TITLE, movie.title);
-            cv.put(Movie.KEY_OVERVIEW, movie.overview);
-            cv.put(Movie.KEY_RATE, movie.rate);
+            cv.put(Movie.KEY_TITLE, movie.getTitle());
+            cv.put(Movie.KEY_OVERVIEW, movie.getOverview());
+            cv.put(Movie.KEY_RATE, movie.getRate());
             cv.put(Movie.KEY_POSTER_PATH, movie.posterPath);
             long id = db.insert(Movie.TABLE_MOVIE, null, cv);
             Log.d(LOG_TAG, "Inserted id=" + id);

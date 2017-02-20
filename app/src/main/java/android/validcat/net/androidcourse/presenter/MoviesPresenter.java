@@ -61,14 +61,9 @@ public class MoviesPresenter implements MVPMovies.MoviesPresenter {
     }
 
     private void onError(Exception e) {
-        //TODO
-        // add new class that handles exception  like a
-        // if (e instanceof IOException)
-        // getSting(R.string.error_working_stream);
         if (MoviesPresenter.this.view != null)
             MoviesPresenter.this.view.onError(e.getLocalizedMessage());
     }
-
 
     @Override
     public void onMovieSelected(int id) {
