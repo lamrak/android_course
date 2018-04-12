@@ -12,6 +12,10 @@ public interface MVPMovies {
     interface MoviesView {
         void onMoviesReceived(List<Movie> movies);
         void onError(String error);
+
+        void showProgressBar();
+
+        void hideProgressBar();
     }
 
     interface MoviesPresenter {

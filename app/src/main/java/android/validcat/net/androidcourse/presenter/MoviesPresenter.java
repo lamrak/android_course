@@ -12,7 +12,6 @@ import rx.schedulers.Schedulers;
 
 public class MoviesPresenter implements MVPMovies.MoviesPresenter {
     private MVPMovies.MoviesView view;
-
     private DataRepository model;
 
     public MoviesPresenter(DataRepository model) {
@@ -49,10 +48,11 @@ public class MoviesPresenter implements MVPMovies.MoviesPresenter {
     }
 
     private void hideProgress() {
+        MoviesPresenter.this.view.hideProgressBar();
     }
 
     private void showProgress() {
-        
+        MoviesPresenter.this.view.showProgressBar();
     }
 
     private void updateUIWithResults(List<Movie> movies) {

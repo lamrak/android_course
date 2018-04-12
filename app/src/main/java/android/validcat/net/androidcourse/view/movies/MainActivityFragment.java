@@ -76,4 +76,14 @@ public class MainActivityFragment extends Fragment
         Toast.makeText(getContext(), error,
                 Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void showProgressBar() {
+
+    }
+
+    @Override
+    public void hideProgressBar() {
+
+    }
 }
